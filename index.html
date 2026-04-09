@@ -1829,26 +1829,6 @@ document.addEventListener("click",e=>{
   document.querySelector('.tab[data-view="chamados"]').click();
   window.scrollTo({top:0,behavior:"smooth"});
 });
-  document.addEventListener("click",e=>{
-  const btn=e.target.closest("button[data-ta='edit']");
-  if(!btn) return;
-  const id=btn.dataset.id;
-  const t=state.tickets.find(x=>x.id===id);
-  if(!t) return;
-  // preenche o formulário de chamado com os dados existentes
-  $("#tNum").value=t.num||"";
-  $("#tDate").value=t.date||todayISO();
-  $("#tTitle").value=t.title||"";
-  $("#tDesc").value=t.desc||"";
-  $("#tOwner").value=t.owner||"";
-  $("#tStatus").value=t.status||"ABERTO";
-  // troca o botão para modo edição
-  $("#btnTicketSave").textContent="Atualizar Chamado";
-  $("#btnTicketSave").dataset.editId=id;
-  // vai para a aba chamados
-  document.querySelector('.tab[data-view="chamados"]').click();
-  window.scrollTo({top:0,behavior:"smooth"});
-});
  
 // lixeira: restore e del permanente
 document.addEventListener("click",e=>{
