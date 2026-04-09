@@ -1233,6 +1233,10 @@ function renderTickets(){
     const isOpen=normalizeStr(t.status).toUpperCase()!=="FECHADO";
     const tag=isOpen?`<span class="tag pending">${escapeHtml(t.status)}</span>`:`<span class="tag done">${escapeHtml(t.status)}</span>`;
     html+=`<tr>
+    <td style="white-space:nowrap">
+    <button type="button" data-ta="edit" data-id="${escapeHtml(t.id)}">Editar</button>
+    <button type="button" class="danger" data-ta="del" data-id="${escapeHtml(t.id)}">Excluir</button>
+  </td>
       <td>${escapeHtml(t.num||"")}</td>
       <td>${escapeHtml(t.date||"")}</td>
       <td title="${escapeHtml(t.desc||"")}">${escapeHtml(t.title||"")}</td>
@@ -1804,6 +1808,46 @@ document.addEventListener("click",e=>{
     state.tickets=state.tickets.filter(x=>x.id!==id);
     saveState(); renderAll();
   }
+});
+  document.addEventListener("click",e=>{
+  const btn=e.target.closest("button[data-ta='edit']");
+  if(!btn) return;
+  const id=btn.dataset.id;
+  const t=state.tickets.find(x=>x.id===id);
+  if(!t) return;
+  // preenche o formulário de chamado com os dados existentes
+  $("#tNum").value=t.num||"";
+  $("#tDate").value=t.date||todayISO();
+  $("#tTitle").value=t.title||"";
+  $("#tDesc").value=t.desc||"";
+  $("#tOwner").value=t.owner||"";
+  $("#tStatus").value=t.status||"ABERTO";
+  // troca o botão para modo edição
+  $("#btnTicketSave").textContent="Atualizar Chamado";
+  $("#btnTicketSave").dataset.editId=id;
+  // vai para a aba chamados
+  document.querySelector('.tab[data-view="chamados"]').click();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+  document.addEventListener("click",e=>{
+  const btn=e.target.closest("button[data-ta='edit']");
+  if(!btn) return;
+  const id=btn.dataset.id;
+  const t=state.tickets.find(x=>x.id===id);
+  if(!t) return;
+  // preenche o formulário de chamado com os dados existentes
+  $("#tNum").value=t.num||"";
+  $("#tDate").value=t.date||todayISO();
+  $("#tTitle").value=t.title||"";
+  $("#tDesc").value=t.desc||"";
+  $("#tOwner").value=t.owner||"";
+  $("#tStatus").value=t.status||"ABERTO";
+  // troca o botão para modo edição
+  $("#btnTicketSave").textContent="Atualizar Chamado";
+  $("#btnTicketSave").dataset.editId=id;
+  // vai para a aba chamados
+  document.querySelector('.tab[data-view="chamados"]').click();
+  window.scrollTo({top:0,behavior:"smooth"});
 });
  
 // lixeira: restore e del permanente
